@@ -10,6 +10,18 @@ const MongoClient = require('mongodb').MongoClient;
 const ObjectID = require('mongodb').ObjectID
 const url = 'mongodb://localhost:27017/products_manager';
 
+const productChecker = (req, res, next) => {
+	const product = {
+		name: req.body.name,
+		price: req.body.price
+	}
+	for (let attr in product) {
+		if (product[attr] === undefined)
+			return res.status(400).json({ error: "Bad product parameters." })
+	}
+	next()
+}
+
 MongoClient.connect(url)
 	.then(client => client.db("products_manager").collection("products"))
 	.then(products => {
@@ -19,7 +31,7 @@ MongoClient.connect(url)
 				.catch(err => console.log("err" + err))
 		})
 
-		app.put("/products/:id", (req, res) => {
+		app.put("/products/:id", productChecker, (req, res) => {
 			const product = {
 				name: req.body.name,
 				price: req.body.price
@@ -30,11 +42,6 @@ MongoClient.connect(url)
 		})
 
 		app.patch("/products/:id", (req, res) => {
-			if (req.body.name && req.body.price) {
-				res.status(400)
-				res.json({ error: "You should use the PUT method." })
-			}
-
 			const product = {}
 			if (req.body.name)
 				product.name = req.body.name
@@ -51,7 +58,7 @@ MongoClient.connect(url)
 				.then(command => (command.result.n == 1) ? res.json(req.params.id) : res.status(404).json({ error: "Entity not found." }))
 		})
 
-		app.post("/products", (req, res) => {
+		app.post("/products", productChecker, (req, res) => {
 			const product = {
 				name: req.body.name,
 				price: req.body.price
