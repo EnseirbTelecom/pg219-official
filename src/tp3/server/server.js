@@ -93,6 +93,10 @@ MongoClient.connect(url)
         if (err) throw err;
         res.json(items)
       })
+      .catch(err => {
+        console.log(err)
+        res.json([])
+      })
     })
 
     app.listen(3000, () => {
