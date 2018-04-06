@@ -1,31 +1,9 @@
-/*
- * Licensed to the Apache Software Foundation (ASF) under one
- * or more contributor license agreements.  See the NOTICE file
- * distributed with this work for additional information
- * regarding copyright ownership.  The ASF licenses this file
- * to you under the Apache License, Version 2.0 (the
- * "License"); you may not use this file except in compliance
- * with the License.  You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing,
- * software distributed under the License is distributed on an
- * "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY
- * KIND, either express or implied.  See the License for the
- * specific language governing permissions and limitations
- * under the License.
- */
 const app = {
-	// Application Constructor
+
 	initialize: function() {
 		document.addEventListener('deviceready', this.onDeviceReady.bind(this), false);
 	},
 
-	// deviceready Event Handler
-	//
-	// Bind any cordova events here. Common events are:
-	// 'pause', 'resume', etc.
 	onDeviceReady: function() {
     phonon.options({
         navigator: {
@@ -34,7 +12,7 @@ const app = {
             enableBrowserBackButton: true,
             templateRootDirectory: './tpl'
         },
-        i18n: null // for this example, we do not use internationalization
+        i18n: null
     })
     const phononApp = phonon.navigator();
 
@@ -72,18 +50,18 @@ const app = {
       activity.onCreate(self => {
         document.querySelector('.primary').on('tap', () => {
           if (activity.id) {
-          fetch("http://localhost:3000/products/" + activity.id, {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              name: document.querySelector('#name').value,
-              price: document.querySelector('#price').value
+            fetch("http://localhost:3000/products/" + activity.id, {
+              method: "PUT",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                name: document.querySelector('#name').value,
+                price: document.querySelector('#price').value
+              })
             })
-          })
-            .then(res => {
-              activity.id = null
-              phonon.navigator().changePage('home')
-            })
+              .then(res => {
+                activity.id = null
+                phonon.navigator().changePage('home')
+              })
           }
           else {
             fetch("http://localhost:3000/products/", {
