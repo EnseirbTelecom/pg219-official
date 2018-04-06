@@ -39,7 +39,7 @@ const app = {
     const phononApp = phonon.navigator();
 
     phononApp.on({ page: 'home', preventClose: false, content: 'home.html', readyDelay: 1}, activity => {
-      let loadProducts = () => {
+      function loadProducts() {
         const ul = document.querySelector('#products');
         ul.innerHTML = ""
     		fetch("http://localhost:3000/products")
@@ -52,7 +52,7 @@ const app = {
     				})
             document.querySelectorAll(".delete").on('tap', event => {
               event.preventDefault()
-              id = event.target.getAttribute("data-id")
+              let id = event.target.getAttribute("data-id")
               fetch("http://localhost:3000/products/" + id, {
                 method: "DELETE",
               }).then(res => {
@@ -68,10 +68,11 @@ const app = {
     })
 
     phononApp.on({ page: 'product', preventClose: false, content: 'product.html', readyDelay: 1}, activity => {
+      activity.id = null
       activity.onCreate(self => {
         document.querySelector('.primary').on('tap', () => {
-          if (id) {
-          fetch("http://localhost:3000/products/" + id, {
+          if (activity.id) {
+          fetch("http://localhost:3000/products/" + activity.id, {
             method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
@@ -80,7 +81,7 @@ const app = {
             })
           })
             .then(res => {
-              id = undefined
+              activity.id = null
               phonon.navigator().changePage('home')
             })
           }
@@ -100,16 +101,20 @@ const app = {
         })
       })
 
-      activity.onHashChanged(pId => {
-        id = pId
-        if (!id)
-          return
-        fetch("http://localhost:3000/products/" + id)
-          .then(res => res.json())
-    			.then(product => {
-            document.querySelector('#name').value = product.name
-            document.querySelector('#price').value = product.price
-          })
+      activity.onHashChanged(id => {
+        activity.id = id
+        if (!activity.id) {
+          document.querySelector('#name').value = ""
+          price: document.querySelector('#price').value = ""
+        }
+        else {
+          fetch("http://localhost:3000/products/" + activity.id)
+            .then(res => res.json())
+      			.then(product => {
+              document.querySelector('#name').value = product.name
+              document.querySelector('#price').value = product.price
+            })
+        }
 	    })
     })
     phononApp.start()
