@@ -1,0 +1,46 @@
+
+<template>
+  <div class="page" data-name="home">
+  <!-- Appbar -->
+  <div class="appbar">
+    <div class="appbar-inner">
+      My Store
+    </div>
+  </div>
+  <!-- Scrollable page content-->
+  <div class="page-content">
+    <div class="block-title">List of products.</div>
+      <div class="list links-list">
+        <ul>
+          {{#each products}}
+          <a href="/products/{{_id}}"><li>{{name}} ({{price}})</li></a>
+          {{/each}}
+        </ul>
+      </div>
+    </div>
+    <div class="fab fab-center-center">
+      <a @click="add" href="#">
+        <i class="icon f7-icons">plus</i>
+      </a>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    async data() {
+      let products = [];
+      try {
+        products = await fetch("http://localhost:3000/products")
+          .then(res => res.json());
+      } catch(err) {
+        this.$app.dialog.alert("Error " + err);
+      }
+      return { products: products };
+    },
+    methods: {
+      add: function() {
+        this.$router.navigate("/products/");
+      }
+    }
+  }
+</script>

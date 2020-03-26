@@ -1,0 +1,116 @@
+
+<template>
+  <div class="page" data-name="product">
+    <div class="appbar">
+      <div class="appbar-inner">
+        My Store
+      </div>
+    </div>
+    <div class="page-content">
+      <div class="block-title">
+        {{#if product._id}}
+          Edit product
+        {{else}}
+          Add product
+        {{/if}}
+      </div>
+      <form class="list" id="product-form">
+        <ul>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Name</div>
+                <div class="item-input-wrap">
+                  <input id="input-name" type="text" name="name" placeholder="Enter name" value="{{product.name}}">
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content item-input">
+              <div class="item-inner">
+                <div class="item-title item-label">Price</div>
+                <div class="item-input-wrap">
+                  <input id="input-price" type="text" name="price" placeholder="Enter price" value="{{product.price}}">
+                </div>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </form>
+      <div class="block block-strong row">
+        <div class="col"><a @click="cancel" class="button" href="#">Cancel</a></div>
+        {{#if product._id}}<div class="col"><a @click="delete" class="button" href="#">Delete</a></div>{{/if}}
+        <div class="col"><a @click="save" class="button" href="#">Save</a></div>
+      </div>
+    </div>
+  </div>
+</template>
+<script>
+  return {
+    async data() {
+      let product = {};
+      const id = this.$route.params.productId;
+      if (id != undefined) {
+        try {
+          product = await fetch("http://localhost:3000/products/" + id).then(res => res.json());
+        } catch(err) {
+          this.$app.dialog.alert("Error " + err);
+        }
+      }
+      return {
+        product: product
+      }
+    },
+
+    methods: {
+      cancel: function() {
+        this.$router.back();
+      },
+
+      save: function() {
+        const name = document.querySelector('#input-name').value;
+        const price = document.querySelector('#input-price').value;
+        const queryData = this.getSaveQueryData();
+        fetch(queryData.url, {
+          method: queryData.method,
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            name: name,
+            price: price
+          })
+        })
+          .catch(err => this.$app.dialog.alert('Error ' + err))
+          .finally(() => {
+            this.$router.navigate("/");
+          });
+      },
+
+      getSaveQueryData: function() {
+        if (this.product._id != undefined) {
+          return {
+            url: "http://localhost:3000/products/" + this.product._id,
+            method: "PUT"
+          }
+        } else {
+          return {
+            url: "http://localhost:3000/products/",
+            method: "POST"
+          }
+        }
+      },
+
+      delete: function() {
+        if (this.product._id != undefined) {
+          fetch("http://localhost:3000/products/" + this.product._id, {
+            method: "DELETE",
+          })
+            .catch(err => this.$app.dialog.alert('Error ' + err))
+            .finally(() => {
+              this.$router.navigate("/");
+            });
+        }
+      }
+    }
+  }
+</script>

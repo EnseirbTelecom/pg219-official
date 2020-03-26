@@ -1,3 +1,4 @@
 node_modules/
-platforms/
-plugins/
+/src/tp4/cordova/platforms/
+/src/tp4/cordova/plugins/
+/src/tp4/cordova/www/
