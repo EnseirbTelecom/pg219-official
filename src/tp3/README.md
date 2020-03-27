@@ -1,4 +1,4 @@
-# TP3 : API pour le stockage de produits avec persistence
+# TP3: API pour le stockage de produits avec persistence
 
 Cette fois-ci en plus de réaliser notre API REST, nous allons également faire persister les données que l'on reçoit dans une BDD.
 Notre API permettra donc de la même manière que celle du TP3 de récupérer/ajouter/modifier/supprimer des produits qui cette fois seront sauvegardés dans une collection MongoDB.
