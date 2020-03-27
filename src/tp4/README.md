@@ -1,54 +1,18 @@
 # My App
 
-## Framework7 CLI Options
+## Installation
 
-Framework7 app created with following options:
-
-```
-{
-  "cwd": "/Users/falleri/Downloads/tps/src/tp41",
-  "type": [
-    "cordova"
-  ],
-  "name": "My App",
-  "framework": "core",
-  "template": "single-view",
-  "bundler": false,
-  "cssPreProcessor": false,
-  "theming": {
-    "customColor": false,
-    "color": "#007aff",
-    "darkTheme": false,
-    "iconFonts": true,
-    "fillBars": false
-  },
-  "customBuild": false,
-  "pkg": "fr.labri.products",
-  "cordova": {
-    "folder": "cordova",
-    "platforms": [
-      "android"
-    ],
-    "plugins": [
-      "cordova-plugin-statusbar",
-      "cordova-plugin-keyboard",
-      "cordova-plugin-splashscreen",
-      "cordova-plugin-wkwebview-file-xhr"
-    ]
-  }
-}
-```
+You need to run `npm install` after having cloned the repository. The code is in `www`.
 
 ## NPM Scripts
 
 * 🔥 `start` - run development server
 * 🔧 `serve` - run development server
 * 📱 `build-cordova` - build cordova app
+
 ## Cordova
 
 Cordova project located in `cordova` folder. You shouldn't modify content of `cordova/www` folder. Its content will be correctly generated when you call `npm run cordova-build-prod`.
-
-
 
 ## Assets
 
@@ -67,9 +31,6 @@ framework7 generate-assets --ui
 ## Documentation & Resources
 
 * [Framework7 Core Documentation](https://framework7.io/docs/)
-
-
-
 * [Framework7 Icons Reference](https://framework7.io/icons/)
 * [Community Forum](https://forum.framework7.io)
 
