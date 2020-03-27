@@ -1,6 +1,10 @@
 # API for product storage
 
-Available routes :
+## Installation
+
+You need to run `npm install` before running the code. Then you have to launch mongodb on your machine. You can launch the server by running `npm start`.
+
+## Available routes
 
 * GET http://localhost:3000/products
 * POST http://localhost:3000/products (Les valeurs pour créer le produit seront passés dans le body cette fois)
