@@ -1,4 +1,4 @@
 node_modules/
-/src/tp4/cordova/platforms/
-/src/tp4/cordova/plugins/
-/src/tp4/cordova/www/
+/tp4/cordova/platforms/
+/tp4/cordova/plugins/
+/tp4/cordova/www/
